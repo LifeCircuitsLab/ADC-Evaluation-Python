@@ -49,7 +49,7 @@ class SARAlgorithmModel(AbstractADC):
         Returns:
             bit_stream (list[ len(bit_weight) ]): The converted bit stream with MSB first. The length will be identical to the size of the bit_stream. Uses reference voltage defined in the class.
     '''
-    def convert(self, input_data):
+    def convertToBitstream(self, input_data):
         r_bit_stream = [0] * len(self.bit_weight)
         # Set the comparator threashold
         for i in range(len(self.bit_weight)):
@@ -60,6 +60,13 @@ class SARAlgorithmModel(AbstractADC):
                 r_bit_stream[i] = 0
                 input_data += self.reference * self.bit_weight[i] / self.sum_cap
         return r_bit_stream
+    
+    def convertToDecimal(self, input_data):
+        m_bit_stream = self.convertToBitstream(input_data)
+        r_decimal_value = 0
+        for i in range(len(m_bit_stream)):
+            r_decimal_value = r_decimal_value * 2 + m_bit_stream[i]
+        return r_decimal_value
     
     '''
         reconstruct(bit_stream):

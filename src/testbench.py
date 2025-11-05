@@ -40,8 +40,7 @@ class testbench:
         m_stairs = [0] * (len(m_codes) + 1)
         m_dnl = [0] * len(m_codes)
         for i in range(len(m_input_voltage)):
-            m_bit_stream = m_instance.convert(m_input_voltage[i])
-            m_dec = utilities.list2dec(m_bit_stream)
+            m_dec = m_instance.convertToDecimal(m_input_voltage[i])
             m_output_code[i] = m_dec
             if i == 0:
                 m_stairs[0] = m_input_voltage[0]

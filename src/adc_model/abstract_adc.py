@@ -6,7 +6,11 @@ class AbstractADC(ABC):
         pass
 
     @abstractmethod
-    def convert(self, input_data) -> list:
+    def convertToBitstream(self, input_data) -> list:
+        pass
+
+    @abstractmethod
+    def convertToDecimal(self, input_data) -> int:
         pass
 
     @abstractmethod
