@@ -1,4 +1,4 @@
-from src.adc_model.sar_algo_model import SARAlgorithmModel
+from src.adc_model.sar_algo_model import SARWithCDAC
 from src.testbench import testbench
 
 # Test metadata
@@ -13,7 +13,7 @@ g_tb_config = {
 }
 
 def wrapper():
-    m_sar_model = SARAlgorithmModel(bit_resolution=g_dut_data["adc_resolution"])
+    m_sar_model = SARWithCDAC(bit_resolution=g_dut_data["adc_resolution"])
     m_sar_model.addMismatch(unit_relative_mismatch = g_dut_data["mismatch_level"])
     m_test_bench = testbench(resolution=g_dut_data["adc_resolution"])
     m_test_bench.setOverResolution(g_tb_config["voltage_sub_resolution"])

@@ -2,7 +2,7 @@ from src.adc_model.abstract_adc import AbstractADC
 import random
 import math
 
-class SARAlgorithmModel(AbstractADC):
+class SARWithCDAC(AbstractADC):
 
     def __init__(self, reference_voltage=1, bit_resolution=10, cmp_threshold=0):
         self.reference = reference_voltage
@@ -42,7 +42,7 @@ class SARAlgorithmModel(AbstractADC):
         self.sum_cap = sum(self.bit_weight) + self.base_cap
 
     '''
-        convert(input_data):
+        convertToBitstream(input_data):
         Convert the input data using SAR algorithm parameters.
         Parameters:
             input_data (float): The voltage to be convertered.
@@ -61,6 +61,14 @@ class SARAlgorithmModel(AbstractADC):
                 input_data += self.reference * self.bit_weight[i] / self.sum_cap
         return r_bit_stream
     
+    '''
+        convertToDecimal(input_data):
+        Convert the input data to decimal using SAR algorithm parameters.
+        Parameters:
+            input_data (float): The voltage to be convertered.
+        Returns:
+            decimal_value (int): The converted decimal value ranging from 0 to 2^N-1. 
+    '''
     def convertToDecimal(self, input_data):
         m_bit_stream = self.convertToBitstream(input_data)
         r_decimal_value = 0
