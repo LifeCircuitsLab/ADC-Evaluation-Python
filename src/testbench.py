@@ -20,15 +20,8 @@ class testbench:
     def setOverResolution(self, over_resolution):
         self.over_resolution = over_resolution
 
-    '''
-        run(m_instance):
-        Run the test bench on the given ADC instance.
-        Parameters:
-            m_instance (AbstractADC): The ADC instance to be tested.
-        Returns:
-            None
-    '''
-    def plot_static_nonlinearity(self, m_instance):
+
+    def measure_static_nonlinearity(self, _instance, verbose=False):
         # Sub-resolution step size
         m_lsb = self.reference_voltage * 2 / (2 ** self.resolution)
         m_codes = [i for i in range(2 ** self.resolution)]
@@ -38,21 +31,33 @@ class testbench:
 
         # There should be one more stair value than the number of codes
         m_stairs = [0] * (len(m_codes) + 1)
-        m_dnl = [0] * len(m_codes)
+        r_dnl = [0] * len(m_codes)
         for i in range(len(m_input_voltage)):
-            m_dec = m_instance.convertToDecimal(m_input_voltage[i])
+            m_dec = _instance.convertToDecimal(m_input_voltage[i])
             m_output_code[i] = m_dec
             if i == 0:
                 m_stairs[0] = m_input_voltage[0]
             elif m_output_code[i] > m_output_code[i - 1]:
                 m_stairs[m_dec] = m_input_voltage[i]
-                m_dnl[m_dec - 1] = (m_stairs[m_dec] - m_stairs[m_dec - 1]) / m_lsb - 1
+                r_dnl[m_dec - 1] = (m_stairs[m_dec] - m_stairs[m_dec - 1]) / m_lsb - 1
             elif m_output_code[i] < m_output_code[i - 1]:
-                print("Error: Output voltage did not increase monotonically.")
+                if verbose:
+                    print("[Error]: Testbench.measure_static_nonlinearity: Output voltage did not increase monotonically.")
             else:
                 continue
-        # Plot the results
-        m_inl = np.cumsum(m_dnl)
+        r_inl = np.cumsum(r_dnl)
+        return r_dnl, r_inl
+    '''
+        plot_static_nonlinearity(m_instance):
+        Measure and plot the nonlinearity figures.
+        Parameters:
+            _instance (AbstractADC): The ADC instance to be tested.
+        Returns:
+            None
+    '''
+    def plot_static_nonlinearity(self, _instance, verbose=False):
+        m_dnl, m_inl = self.measure_static_nonlinearity(_instance, verbose=verbose)
+        m_codes = [i for i in range(2 ** self.resolution)]
         pg.plot(m_codes, m_dnl)
         pg.xlabel("Code")
         pg.ylabel("DNL/INL (LSB)")
