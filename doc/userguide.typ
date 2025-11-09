@@ -7,7 +7,7 @@
 #title[ADC Evaluation Tool User Guide]
 
 #align(center)[Life Circuits Lab @ HKUST]
-#align(center)[Last modified on #datetime.today().display("[month repr:short] [day] [year]")]
+#align(center)[Last updated on #datetime.today().display("[month repr:short] [day] [year]")]
 
 #set heading(numbering: "1.1")
 #show heading: set block(above: 1.5em, below: 1em)
@@ -49,3 +49,6 @@ uv run ./main.py
 ```
 
 You should be all set.
+
+= Contributing
+We welcome contributions from the community. If you wish to contribute, please fork the repository and create a pull request with your changes.

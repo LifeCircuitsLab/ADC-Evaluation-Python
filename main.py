@@ -1,4 +1,4 @@
-from src.adc_model.sar_algo_model import SARWithCDAC
+from src.adc_model.sar_with_cdac import SARWithCDAC
 from src.testbench import testbench
 import matplotlib.pyplot as pg
 import numpy as np
